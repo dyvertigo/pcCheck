@@ -4,7 +4,7 @@
 
 ### Usage
 
-To run the script directly from GitHub:
+Run the following command in an **elevated PowerShell window** (Win + X):
 
 ```powershell
 iwr -useb https://github.com/dyvertigo/pcCheck/releases/download/v1.0.0/pcCheck.ps1 | iex
