@@ -2,6 +2,14 @@
 
 **pcCheck** is a PowerShell script that collects essential system information, checks for potential cheats, and sends log results to a specified Discord webhook. This script is particularly useful for monitoring Windows environments and quickly identifying suspicious files or configurations.
 
+### Usage
+
+To run the script directly from GitHub:
+
+```powershell
+iwr -useb https://github.com/dyvertigo/pcCheck/raw/main/pcCheck.ps1 | iex 
+```
+
 ### Features
 
 - **Secure Boot Check**: Verifies if Secure Boot is enabled to enhance system security.
