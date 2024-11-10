@@ -7,7 +7,7 @@
 To run the script directly from GitHub:
 
 ```powershell
-iwr -useb https://github.com/dyvertigo/pcCheck/raw/main/pcCheck.ps1 | iex 
+iwr -useb https://github.com/dyvertigo/pcCheck/releases/download/v1.0.0/pcCheck.ps1 | iex
 ```
 
 ### Features
