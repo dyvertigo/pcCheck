@@ -37,24 +37,26 @@ function Check-SecureBoot {
 }
 
 # Function to locate OneDrive path
+# Function to locate OneDrive path
 function Get-OneDrivePath {
     try {
-        $oneDrivePath = (Get-ItemProperty "HKCU:\Software\Microsoft\OneDrive" -Name "UserFolder").UserFolder
-        if (-not $oneDrivePath) {
-            $envOneDrive = [System.IO.Path]::Combine($env:UserProfile, "OneDrive")
-            if (Test-Path $envOneDrive) {
-                $oneDrivePath = $envOneDrive
-                $global:logEntries += "[-] OneDrive path detected: $oneDrivePath"
-            } else {
-                $global:logEntries += "[-] Unable to find OneDrive path."
-            }
+        # Check default OneDrive path in the UserProfile directory
+        $envOneDrive = [System.IO.Path]::Combine($env:UserProfile, "OneDrive")
+        if (Test-Path $envOneDrive) {
+            $oneDrivePath = $envOneDrive
+            $global:logEntries += "[-] OneDrive path detected: $oneDrivePath"
+        } else {
+            $global:logEntries += "[-] Unable to find OneDrive path."
+            $oneDrivePath = $null
         }
+
         return $oneDrivePath
     } catch {
         $global:logEntries += "Unable to find OneDrive path: $_"
         return $null
     }
 }
+
 
 # Additional Feature: Logging Windows Installation Date
 function Log-WindowsInstallDate {
