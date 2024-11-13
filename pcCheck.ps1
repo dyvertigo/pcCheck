@@ -171,12 +171,30 @@ function Log-FolderNames {
     Write-Host "Log entries: $($global:logEntries -join "`n")" -ForegroundColor Cyan
 }
 
+# Function to retrieve and send computer/user information
+function Send-InitialMessage {
+    $computerName = $env:COMPUTERNAME
+    $userName = $env:USERNAME
+    $discordWebhookUrl = "https://discord.com/api/webhooks/1305253767687573555/qfDWd_Y2rEP5j8cnAHKDA1l__dUNlr1B8VoGVKCFM_MpClE32YOEhxdY_4d66uvRPND1"
+
+    # JSON payload with computer and user info
+    $jsonPayload = @{
+        content = "System Check initiated on **$computerName** by **$userName**"
+    } | ConvertTo-Json
+
+    try {
+        # Send the initial message
+        Invoke-RestMethod -Uri $discordWebhookUrl -Method Post -ContentType "application/json" -Body $jsonPayload
+        Write-Host "Initial message sent to Discord webhook."
+    } catch {
+        Write-Host "Failed to send initial message to Discord webhook: $_"
+    }
+}
+
 # Function to send the log file as an attachment to your Discord webhook
 function Send-Logs {
     $desktopPath = [System.Environment]::GetFolderPath('Desktop')
     $logFilePath = Join-Path -Path $desktopPath -ChildPath "SystemCheckLogs.txt"
-
-    # Your specific Discord webhook URL
     $discordWebhookUrl = "https://discord.com/api/webhooks/1305253767687573555/qfDWd_Y2rEP5j8cnAHKDA1l__dUNlr1B8VoGVKCFM_MpClE32YOEhxdY_4d66uvRPND1"
 
     # Confirm the log file path
@@ -212,6 +230,9 @@ function Send-Logs {
 
 # Final Function to Execute All Checks
 function RunSystemCheck {
+    # Send initial message with computer and user info
+    Send-InitialMessage
+
     # Run all checks and add logs
     Check-AdministratorPrivileges
     Check-SecureBoot
